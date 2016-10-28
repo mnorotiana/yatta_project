@@ -71,7 +71,7 @@ module.exports.connections = {
   * http://en.wikipedia.org/wiki/PostgreSQL                                  *
   *                                                                          *
   * Run: npm install sails-postgresql                                        *
-  *                                                                          *
+                                                                      *
   *                                                                          *
   ***************************************************************************/
 
