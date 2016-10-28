@@ -77,10 +77,10 @@ module.exports.connections = {
 
   ConnexionPostgresql: {
     adapter: 'sails-postgresql',
-    host: 'db1.easytech.mg',
-    user: 'gpao_classique',
-    password: '$gpao_classique',
-    database: 'easy'
+    host: '192.168.1.206',
+    user: 'postgres',
+    password: 'yatta!',
+    database: 'yatta'
   },
   // somePostgresqlServer: {
   //   adapter: 'sails-postgresql',
