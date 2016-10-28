@@ -36,6 +36,9 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+  'get /login':'AuthController.IndexLogin',
+  'post /login':'AuthController.Login',
+  '/logout': 'AuthController.Logout',
   '/historique' : 'Historique_intrusionController.historique',
 
   /***************************************************************************

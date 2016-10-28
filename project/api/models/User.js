@@ -8,7 +8,7 @@
 module.exports = {
 
   connection: 'ConnexionPostgresql', // connexion à la base, nom du base:"ConnexionPostgresql"
-  tableName: 'user', //
+  tableName: 'user', // nom du table qui est associé avec le modele Dossier
   autoCreatedAt: false,
   autoUpdatedAt: false,
 
@@ -19,7 +19,6 @@ module.exports = {
       size: 11,
       autoIncrement: true,
       defaultsTo: 0,
-      primaryKey: true,
     },
     nom: {
       type: 'string',
@@ -67,17 +66,40 @@ module.exports = {
       size: 10,
       defaultsTo: 0
     },
+
+    username: {
+      type: 'string',
+      size: 40
+    },
+
+    password: {
+      type: 'string',
+      size: 40
+    },
+
+    actif:{
+      type: 'boolean',
+      columnName: 'actif'
+    }
+
+  },
+
+  Login : function(login, password, next){
+    User.findOne({username : login, password : password, actif : true})
+      .exec(function(err, personne){
+        if(err) next(err);
+
+        return next(null, personne);
+      });
   },
 
   GetAll : function(next){
-    User.find()
-      .sort({id_user : 'asc'})
-      .exec(function(err, user){
-        if(err) next(err);
-        return next(null, user);
-      });
+  User.find()
+    .sort({id_user : 'asc'})
+    .exec(function(err, user) {
+      if (err) next(err);
+      return next(null, user);
+    })
   }
-
-
 };
 
