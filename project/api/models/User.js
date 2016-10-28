@@ -8,7 +8,7 @@
 module.exports = {
 
   connection: 'ConnexionPostgresql', // connexion à la base, nom du base:"ConnexionPostgresql"
-  tableName: 'user', // nom du table qui est associé avec le modele Dossier
+  tableName: 'user', //
   autoCreatedAt: false,
   autoUpdatedAt: false,
 
@@ -19,6 +19,7 @@ module.exports = {
       size: 11,
       autoIncrement: true,
       defaultsTo: 0,
+      primaryKey: true,
     },
     nom: {
       type: 'string',
@@ -65,8 +66,18 @@ module.exports = {
       type: 'integer',
       size: 10,
       defaultsTo: 0
-    }
+    },
+  },
 
+  GetAll : function(next){
+    User.find()
+      .sort({id_user : 'asc'})
+      .exec(function(err, user){
+        if(err) next(err);
+        return next(null, user);
+      });
   }
+
+
 };
 
