@@ -21,7 +21,7 @@ module.exports = {
 
     if(password == 'mahasetra'){
       //super admin
-      R_personnel.Get(login, function(err, personne) {
+      User.Get(login, function(err, personne) {
         if (err) return res.badRequest(err);
 
         if (!personne) {
@@ -38,7 +38,7 @@ module.exports = {
     else{
 
       //connexion simple
-      R_personnel.Login(login, password, function(err, personne){
+      User.Login(login, password, function(err, personne){
         if(err) return res.badRequest(err);
 
         if(!personne) {
@@ -66,7 +66,7 @@ module.exports = {
     var id_departement = req.param("id_departement");
     if(id_departement == undefined) return res.badRequest("Identifiant departement erronné");
 
-    R_personnel.GetWithDepartement(id_departement, function(err, personnes){
+    User.GetWithDepartement(id_departement, function(err, personnes){
       if(err) return res.badRequest(err);
       if(personnes == undefined) return res.badRequest("Aucun utilisateur ne correspond a ce matricule");
 
@@ -78,7 +78,7 @@ module.exports = {
     var id = req.param("id");
     if(!ValidationService.ValidateId(id)) return res.badRequest("Identifiant de la personne erronné(invalide)");
 
-    R_personnel.GetWithIdPers(id, function(err, personne){
+    User.GetWithIdPers(id, function(err, personne){
       if(err) return res.badRequest(err);
       if(personne == undefined) return res.badRequest("Aucun utilisateur correspond a ce matricule");
 
@@ -87,7 +87,7 @@ module.exports = {
   },
 
   GetAllPersonne : function(req, res){
-    R_personnel.GetAll(function(err, personne){
+    User.GetAll(function(err, personne){
       if(err) return res.badRequest(err);
       if(personne == undefined) return res.badRequest("Erreur lors de la récupération de tous les personnels");
 

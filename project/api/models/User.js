@@ -65,8 +65,32 @@ module.exports = {
       type: 'integer',
       size: 10,
       defaultsTo: 0
+    },
+
+    username: {
+      type: 'string',
+      size: 40
+    },
+
+    password: {
+      type: 'string',
+      size: 40
+    },
+
+    actif:{
+      type: 'boolean',
+      columnName: 'actif'
     }
 
+  },
+
+  Login : function(login, password, next){
+    User.findOne({username : login, password : password, actif : true})
+      .exec(function(err, personne){
+        if(err) next(err);
+
+        return next(null, personne);
+      });
   }
 };
 
