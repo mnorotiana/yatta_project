@@ -8,7 +8,7 @@
 module.exports = {
 
   connection: 'ConnexionPostgresql', // connexion à la base, nom du base:"ConnexionPostgresql"
-  tableName: 'Lien_intrusion_categorie', // nom du table qui est associé avec le modele Dossier
+  tableName: 'tien_intrusion_categorie', // nom du table qui est associé avec le modele Dossier
   autoCreatedAt: false,
   autoUpdatedAt: false,
 
