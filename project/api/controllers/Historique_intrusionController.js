@@ -14,9 +14,12 @@ module.exports = {
       return res.json(val);
     });
   },
-
-
-
-
+  total_intrusion : function(req, res){
+    Historique_intrusion.GetTotHisto("", function(err, val){
+      //if(err) return res.badRequest(err);
+      console.log(val);
+      return res.json(val);
+    });
+  },
 };
 

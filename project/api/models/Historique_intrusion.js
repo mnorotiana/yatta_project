@@ -75,6 +75,26 @@ module.exports = {
     });
   },
 
+  //Chargement des historiques
+  GetTotHisto : function(req, callback){
+    //l
+    console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n -------' + req);
+    var param_date = (req != "")?" AND historique_intrusion.date_intrusion = '" + req + "'" :"";
+
+    var query = "SELECT count(nb_id_historique_intrusion) as nb, count(id_categorie_intrusion) as nb_categorie, count(id_type_intrusion) as nb_type " +
+      "FROM historique_intrusion "+
+
+      " WHERE 1=1" + param_date;
+
+    console.log(query);
+
+    Historique_intrusion.query(query, function(err, res){
+      if(err) return callback(err);
+      console.log(res);
+      return callback(null, res.rows);
+    });
+  },
+
   Delete : function(req, callback){
     Historique_intrusion.destroy({id_historique_intrusion : req})
       .exec(function(err){
