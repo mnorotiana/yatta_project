@@ -7,8 +7,8 @@
 
 module.exports = {
 
-  connection: 'ConnexionPostgresql', // connexion à la base, nom du base:"ConnexionPostgresql"
-  tableName: 'Type_intrusion', //
+  connection: 'ConnexionPostgresql', // connexion Ã  la base, nom du base:"ConnexionPostgresql"
+  tableName: 'type_intrusion', //
   autoCreatedAt: false,
   autoUpdatedAt: false,
 

@@ -8,19 +8,17 @@
 module.exports = {
 
   connection: 'ConnexionPostgresql', // connexion à la base, nom du base:"ConnexionPostgresql"
-  tableName: 'User', // nom du table qui est associé avec le modele Dossier
+  tableName: 'user', // nom du table qui est associé avec le modele Dossier
   autoCreatedAt: false,
   autoUpdatedAt: false,
 
   //attributs
   attributes: {
     id_user: { //id du dossier
-      id: {
       type: 'integer',
       size: 11,
       autoIncrement: true,
       defaultsTo: 0,
-
     },
     nom: {
       type: 'string',
@@ -68,7 +66,7 @@ module.exports = {
       size: 10,
       defaultsTo: 0
     }
-	}
+
   }
 };
 
