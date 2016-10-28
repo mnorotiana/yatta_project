@@ -7,8 +7,19 @@
 
 module.exports = {
 
-  attributes: {
+  connection: 'ConnexionPostgresql', // connexion à la base, nom du base:"ConnexionPostgresql"
+  tableName: 'Categorie_intrusion', //
+  autoCreatedAt: false,
+  autoUpdatedAt: false,
 
+  attributes: {
+    id_categorie_intrusion: {
+      type: 'int',
+      size: 11
+    },
+    libelle: {
+      type: 'string',
+      size: 40
+    },
   }
 };
-
