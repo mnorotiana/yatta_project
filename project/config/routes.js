@@ -34,7 +34,9 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
-  }
+  },
+
+  '/historique' : 'Historique_intrusionController.historique',
 
   /***************************************************************************
   *                                                                          *
