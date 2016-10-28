@@ -1,0 +1,72 @@
+<div class="container">
+    <h2 class="bg-primary text-center">Création de formulaire</h2>
+    <div id="listQuestion">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Question</th>
+                <th>Type d'entrée</th>
+                <th>numero</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>John</td>
+                <td>Doe</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Mary</td>
+                <td>Moe</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>July</td>
+                <td>Dooley</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Ajouter une question
+        </button>
+    </div>
+    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">AJOUT QUESTION</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="labelQuestion">Question</label>
+                        <input type="text" class="form-control" id="labelQuestion" name="labelQuestion" placeholder="Question">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Type d'entrée</label>
+                        <select class="form-control" id="typeInput">
+                        <%
+                            if(listInput != undefined){
+                                for(var id in listInput){ %>
+                                    <option value='<%= id %>'><%= listInput[id] %></option> 
+                                <%}
+                            }
+                        %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="defaultValue">Valeur initial</label>
+                        <input type="text" class="form-control" id="defaultValue" placeholder="Valeur par défaut à ajouter"><button type="button" class="btn btn-primary">Ajouter</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --> 
+</div>

@@ -1,0 +1,59 @@
+<!--Utiliser pour afficher la liste des questions d'une formulaire-->
+<table class="table table-hover">
+    <thead class="bg-primary">
+    <tr>
+        <!--<th>Numero</th>-->
+        <th colspan="6">Titre</th>
+        <th>Type d'entrée</th>
+        <th>Valeur initiale</th>
+        <th>Supprimer</th>
+        <!--<th>Modifier</th>-->
+    </tr>
+    </thead>
+    <tbody>
+
+    <%
+    var classLigne = "success";
+
+    for(var index in listQuestion){
+      var _numero = listQuestion[index].numero;
+      var _label = listQuestion[index].label;
+      var _input = listQuestion[index].id_input_type.type;
+      var _id = listQuestion[index].id_question;
+      var _defaults = listQuestion[index].defaultValue;
+
+      //pour alterner les couleurs
+      if(classLigne == "danger") classLigne = "info";
+
+      else if(classLigne == "info") classLigne = "warning";
+
+      else if(classLigne == "warning") classLigne = "success";
+
+      else if(classLigne == "success") classLigne = "danger";
+
+    %>
+
+    <tr class="<%= classLigne %>">
+        <!--<td><%//= _numero %></td>-->
+        <td colspan="6"><%= _label %></td>
+        <td><%= _input %></td>
+        <td>
+
+          <%if(_defaults != undefined /* && _defaults.length > 0*/){%>
+          <select class="form-control">
+            <% if(_defaults != undefined)
+               for(var key in _defaults){%>
+                    <option><%= _defaults[key] %></option>
+                <%};%>
+          </select>
+          <%}%>
+
+        </td>
+        <td><input type="button" id="<%=_id%>" value="supprimer" class="supprimer btn btn-danger"></td>
+        <!--<td><input type="button" id="<%//=_id%>" value="modifier" class="modifier btn btn-primary"></td>-->
+    </tr>
+
+    <% }%>
+
+    </tbody>
+</table>
