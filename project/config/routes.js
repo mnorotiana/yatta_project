@@ -41,7 +41,10 @@ module.exports.routes = {
   '/logout': 'AuthController.Logout',
 
   '/historique' : 'Historique_intrusionController.historique',
-  '/total_intrusion' : 'Historique_intrusionController.total_intrusion',
+  '/total_type_intrusion' : 'Historique_intrusionController.total_type_intrusion',
+  '/total_categorie_intrusion' : 'Historique_intrusionController.total_categorie_intrusion',
+
+
 
   /***************************************************************************
   *                                                                          *

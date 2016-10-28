@@ -52,7 +52,7 @@ module.exports = {
   //Chargement des historiques
   GetHisto : function(req, callback){
     //l
-    console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n -------' + req);
+    console.log('\n\n\n\n\n -------' + req);
     var param_date = (req != "")?" AND historique_intrusion.date_intrusion = '" + req + "'" :"";
 
     var query = "SELECT historique_intrusion.id_historique_intrusion, " +
@@ -76,15 +76,15 @@ module.exports = {
   },
 
   //Chargement des historiques
-  GetTotHisto : function(req, callback){
+  GetHistoParType : function(req, callback){
     //l
-    console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n -------' + req);
+    console.log('\n\n -------' + req);
     var param_date = (req != "")?" AND historique_intrusion.date_intrusion = '" + req + "'" :"";
 
-    var query = "SELECT count(nb_id_historique_intrusion) as nb, count(id_categorie_intrusion) as nb_categorie, count(id_type_intrusion) as nb_type " +
-      "FROM historique_intrusion "+
-
-      " WHERE 1=1" + param_date;
+    var query = "SELECT count(id_historique_intrusion) as nb, type_intrusion.libelle " +
+      " FROM historique_intrusion " +
+      " LEFT JOIN type_intrusion ON historique_intrusion.id_type_intrusion = type_intrusion.id_type_intrusion " +
+      " group by type_intrusion.libelle";
 
     console.log(query);
 
@@ -92,6 +92,30 @@ module.exports = {
       if(err) return callback(err);
       console.log(res);
       return callback(null, res.rows);
+    });
+  },
+
+  //Chargement des historiques
+  GetHistoParCategorie : function(req, callback){
+    //l
+    console.log('\n\n\n -------' + req);
+    var param_date = (req != "")?" AND historique_intrusion.date_intrusion = '" + req + "'" :"";
+
+    var query = "SELECT count(id_historique_intrusion) as nb, categorie_intrusion.libelle " +
+      " FROM historique_intrusion " +
+      " LEFT JOIN Lien_intrusion_categorie ON historique_intrusion.id_historique_intrusion = Lien_intrusion_categorie.id_lien_intrusion " +
+      " LEFT JOIN categorie_intrusion ON historique_intrusion.id_categorie_intrusion = categorie_intrusion.id_categorie_intrusion " +
+      " group by categorie_intrusion.libelle";
+
+    console.log(query);
+
+    Historique_intrusion.query(query, function(err, val){
+
+      console.log(console.log('--pppp------------------'+val));
+
+      if(err) return callback(err);
+      console.log(val);
+      return callback(null, val.rows);
     });
   },
 

@@ -14,8 +14,16 @@ module.exports = {
       return res.json(val);
     });
   },
-  total_intrusion : function(req, res){
-    Historique_intrusion.GetTotHisto("", function(err, val){
+  total_type_intrusion : function(req, res){
+    Historique_intrusion.GetHistoParType("", function(err, val){
+      //if(err) return res.badRequest(err);
+      console.log(val);
+      return res.json(val);
+    });
+  },
+
+  total_categorie_intrusion : function(req, res){
+    Historique_intrusion.GetHistoParCategorie("", function(err, val){
       //if(err) return res.badRequest(err);
       console.log(val);
       return res.json(val);
