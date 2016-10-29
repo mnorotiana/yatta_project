@@ -36,7 +36,6 @@ module.exports = {
       });
     }
     else{
-      console.log(login+'/'+password);
       //connexion simple
       User.Login(login, password, function(err, personne){
         if(err) return res.badRequest(err);
@@ -49,7 +48,7 @@ module.exports = {
         req.session.user = personne;
         req.session.authentified = true;
 
-        return res.redirect("/");
+        return res.redirect("/tableau_bord");
 
       });
     }

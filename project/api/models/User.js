@@ -91,8 +91,6 @@ module.exports = {
   },
 
   Login : function(login, password, next){
-
-    console.log(password);
     User.findOne({username : login, password : password, actif : true})
       .exec(function(err, personne){
         if(err) next(err);

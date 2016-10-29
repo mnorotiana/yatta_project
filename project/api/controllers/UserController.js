@@ -7,6 +7,8 @@
 
 module.exports = {
 	Details : function(req, res){
+
+		console.log( req.session.user);
     /*Eq_admin_formulaire.GetFormulaireWithMatricul(req.session.user.id_pers, function(err, formulaires){
       if(err) return res.badRequest(err);
       if(formulaires == undefined) res.badRequest(MessageErrorService.NotFoundIdFormulaire());
