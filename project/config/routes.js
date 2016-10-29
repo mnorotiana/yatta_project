@@ -40,6 +40,8 @@ module.exports.routes = {
   'post /login':'AuthController.Login',
   '/logout': 'AuthController.Logout',
   '/historique' : 'Historique_intrusionController.historique',
+  '/tableau_bord': 'BackendController.Acceuil',
+  '/profile':'UserController.Details'
 
   /***************************************************************************
   *                                                                          *
