@@ -15,7 +15,7 @@ module.exports = {
   },
 
   Login : function(req, res){
-    var login = req.param('username');
+    var login = req.param('login');
     var password = req.param('password');
 
 
@@ -36,7 +36,7 @@ module.exports = {
       });
     }
     else{
-
+      console.log(login+'/'+password);
       //connexion simple
       User.Login(login, password, function(err, personne){
         if(err) return res.badRequest(err);

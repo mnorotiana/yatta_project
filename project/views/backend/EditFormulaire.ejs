@@ -1,0 +1,144 @@
+<input type="hidden" value="<%= formulaire.id_formulaire %>" name="id_formulaire" id="id_formulaire">
+
+<div class="container-fluid">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <div class="form-inline">
+        <div class="form-group">
+          <h3><%= formulaire.titre %></h3>
+        </div>
+
+        <div class="form-group pull-right">
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteFormulaire">
+            Supprimé le formulaire
+          </button>
+        </div>
+
+        <div class="form-group pull-right">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Ajouter une question
+          </button>
+        </div>
+
+        <div class="form-group pull-right">
+          <button type="button" id="buttonGestionAdministrateur" class="btn btn-primary" data-toggle="modal" data-target="#modalGestionAdministrateur">
+            Gestion des Administrateurs
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <div class="bg-warning">
+        <h3>Liste des questions</h3>
+      </div>
+      <div id="listQuestion">
+        <%- partial ('ListQuestion.ejs', {listQuestion : listQuestion}) %>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!--DIALOGUE MODAL POUR LAJOUT DE QUESION-->
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title text-center">AJOUT QUESTION</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="labelQuestion">Titre de la question</label>
+          <input type="text" class="form-control" id="labelQuestion" name="labelQuestion" placeholder="Titre de la Question">
+        </div>
+
+        <div class="form-group">
+          <label for="descritpionQuestion">Description</label>
+          <textarea rows="4" type="text" class="form-control" id="descritpionQuestion" name="descritpionQuestion" placeholder="Text de description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="questionQuestion">Question</label>
+          <input type="text" class="form-control" id="questionQuestion" name="questionQuestion" placeholder="Question">
+        </div>
+
+
+        <div class="form-group">
+          <label for="typeInput">Type d'entrée</label>
+          <select class="form-control" id="typeInput" name="typeInput">
+            <%
+            if(listInput != undefined){
+              for(var id in listInput){ %>
+            <option value='<%= id %>'><%= listInput[id] %></option>
+            <%}
+            }
+            %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="defaultValue">Valeur initiale</label>
+          <input type="text" class="form-control" id="defaultValue" placeholder="Valeur par défaut à ajouter">
+          <select multiple class="form-control" id="listDefaultValue" name="listDefaultValue" size="6">
+
+          </select>
+          <!--<button type="button" id="ajouterDefaultValue" class="btn btn-primary">Ajouter valeur par défaut</button>-->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="enregistrerQuestion" class="btn btn-primary">Enregistrer</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!--AJOUTER ADMINISTRATEUR-->
+<div class="modal fade" id="modalGestionAdministrateur" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4>Gestion des administrateurs</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="defaultValue">Matricule</label>
+          <input type="text" class="form-control" id="inputAddAdministrateur" placeholder="Numero matricule">
+          <select multiple class="form-control" id="listAdministrateur" name="listAdministrateur" size="8">
+
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="enregistrerListAdministrateur">Enregistrer</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--BOITE DE DIALOGUE MODAL POUR LA CONFIRMATION DE LA SUPPRESSION-->
+<div class="modal fade" id="modalDeleteFormulaire" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4>Suppression formulaire</h4>
+      </div>
+      <div class="modal-body">
+        <p>Voulez-vous vraiment supprimé ce formulaire?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="deleteFormulaire">
+          Supprimer le formulaire
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>

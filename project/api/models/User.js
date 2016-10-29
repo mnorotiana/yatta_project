@@ -67,6 +67,12 @@ module.exports = {
       defaultsTo: 0
     },
 
+    societe: {
+      type: 'integer',
+      size: 10,
+      defaultsTo: 0
+    },
+
     username: {
       type: 'string',
       size: 40
@@ -85,6 +91,8 @@ module.exports = {
   },
 
   Login : function(login, password, next){
+
+    console.log(password);
     User.findOne({username : login, password : password, actif : true})
       .exec(function(err, personne){
         if(err) next(err);

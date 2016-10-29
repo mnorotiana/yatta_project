@@ -39,6 +39,10 @@ module.exports.routes = {
   'get /login':'AuthController.IndexLogin',
   'post /login':'AuthController.Login',
   '/logout': 'AuthController.Logout',
+  '/tableau_bord': 'BackendController.Acceuil',
+  '/profile':'UserController.Details'
+
+
 
   /***************************************************************************
   *                                                                          *

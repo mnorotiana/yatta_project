@@ -1,0 +1,57 @@
+<!--Utiliser pour afficher la liste des historiques-->
+
+<%
+if(historiques.length == 0 || historiques.length == undefined){ %>
+<table class="table table-hover">
+    <thead>
+    <tr>
+    <th class="bg-warning"><h3>Aucun formulaire disponible</h3></th>
+  </tr>
+  </thead>
+</table>
+  <%
+}
+else {
+  %>
+
+
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th class="bg-primary"><h3>Listes des historiques</h3></th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <%
+  for(var index in historiques){
+    if(historiques[index] == undefined) continue;
+
+    var _titre = historiques[index].titre;
+    var _id = historiques[index].id_formulaire;
+    var _path;
+    if(admin == true){
+      _path = "/admin/formulaire?id_formulaire=" + _id;
+    }
+    else if(admin == "resultat"){
+      _path = "/resultat/formulaire?id_formulaire=" + _id;
+    }
+    else if(admin == "reporting"){
+      _path = "/reporting/formulaire?id_formulaire=" + _id;
+    }
+    else{
+      _path = "/formulaire/reponse?id_formulaire=" + _id;
+    }
+  %>
+
+  <tr>
+    <td><a href="<%= _path %>"><%= _titre %></a></td>
+  </tr>
+
+  <% }%>
+
+  </tbody>
+</table>
+
+<%}
+%>
