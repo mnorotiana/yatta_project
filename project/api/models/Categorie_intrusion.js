@@ -15,11 +15,23 @@ module.exports = {
   attributes: {
     id_categorie_intrusion: {
       type: 'int',
-      size: 11
+      size: 11,
+      primaryKey: true,
     },
     libelle: {
       type: 'string',
       size: 40
     },
-  }
+  },
+  Get : function(req, res){
+    if(req.id_categorie_intrusion)
+    categorie_intrusion.findOne({id_categorie_intrusion : req.id_categorie_intrusion})
+      .populate('id_input_type')
+      .sort({id_question : 'asc'})
+      .exec(function(err, questions){
+        if(err) return callback(err);
+
+        return callback(null, questions);
+      });
+  },
 };

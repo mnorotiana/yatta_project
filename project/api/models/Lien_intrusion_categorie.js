@@ -8,17 +8,18 @@
 module.exports = {
 
   connection: 'ConnexionPostgresql', // connexion à la base, nom du base:"ConnexionPostgresql"
-  tableName: 'tien_intrusion_categorie', // nom du table qui est associé avec le modele Dossier
+  tableName: 'lien_intrusion_categorie', // nom du table qui est associé avec le modele Dossier
   autoCreatedAt: false,
   autoUpdatedAt: false,
 
   //attributs
   attributes: {
-    id_intrusion: {
+    id_lien_intrusion: {
         type: 'integer',
         size: 11,
         autoIncrement: true,
         defaultsTo: 0,
+      primaryKey: true,
       },
     id_intrusion: {
       type: 'integer',

@@ -99,6 +99,15 @@ module.exports = {
 
         return next(null, personne);
       });
+  },
+
+  GetAll : function(next){
+  User.find()
+    .sort({id_user : 'asc'})
+    .exec(function(err, user) {
+      if (err) next(err);
+      return next(null, user);
+    })
   }
 };
 

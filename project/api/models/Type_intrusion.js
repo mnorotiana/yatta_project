@@ -15,7 +15,8 @@ module.exports = {
   attributes: {
     id_type_intrusion: {
       type: 'int',
-      size: 11
+      size: 11,
+      primaryKey: true,
     },
     libelle: {
       type: 'string',
