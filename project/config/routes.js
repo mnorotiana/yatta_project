@@ -39,10 +39,17 @@ module.exports.routes = {
   'get /login':'AuthController.IndexLogin',
   'post /login':'AuthController.Login',
   '/logout': 'AuthController.Logout',
+
   '/historique' : 'Historique_intrusionController.historique',
+
+  '/total_type_intrusion' : 'Historique_intrusionController.total_type_intrusion',
+  '/total_categorie_intrusion' : 'Historique_intrusionController.total_categorie_intrusion',
+
+
   '/tableau_bord': 'BackendController.Acceuil',
   '/profile':'UserController.Details',
   'register':'UserController.register',
+
 
   /***************************************************************************
   *                                                                          *

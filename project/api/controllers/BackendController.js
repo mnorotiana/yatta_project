@@ -19,7 +19,7 @@ module.exports = {
     Historique_intrusion.GetHisto("", function(err, val){
       return res.view('backend/Index', {message : false, list: val, layout : 'layoutBackend'});
     });
-    
+
     },
 
   //création de nouvelle formulaire (pour avoir departement, titre, date, matricul créateur)
@@ -153,7 +153,6 @@ module.exports = {
           return res.view("backend/ListQuestion", {layout : false, listQuestion : listQuestion});
         });
     });
-
   },
 
 
