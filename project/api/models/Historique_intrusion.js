@@ -32,7 +32,7 @@ module.exports = {
       size: 40
     },
     severity_code: {
-      type: 'integer',
+      type: 'string',
       size: 2
     },
     source: {
@@ -70,6 +70,11 @@ module.exports = {
           " LEFT JOIN categorie_intrusion ON historique_intrusion.id_categorie_intrusion = categorie_intrusion.id_categorie_intrusion " +
           " group by categorie_intrusion.libelle";
         break;
+      case "severity_code":
+        query = "SELECT count(id_historique_intrusion) as nb, severity_code as libelle " +
+          " FROM historique_intrusion " +          
+          " group by severity_code";
+        break;
       default:
         query = "SELECT historique_intrusion.id_historique_intrusion, " +
           "historique_intrusion.id_type_intrusion, " +
@@ -96,5 +101,47 @@ module.exports = {
         return callback(null);
       });
   },
+
+  GetType : function(req, callback){
+    //l
+    
+        var query = "SELECT  distinct (id_type_intrusion) " +
+          " FROM historique_intrusion " ;
+        
+    Historique_intrusion.query(query, function(err, res){
+      if(err) return callback(err);
+      
+      return res.length;
+    });
+  },
+
+  GetCategorie : function(req, callback){
+    //l
+    
+        var query = "SELECT  distinct (id_categorie_intrusion) " +
+          " FROM historique_intrusion " ;
+        
+    Historique_intrusion.query(query, function(err, res){
+      if(err) return callback(err);
+      
+      return res.length;
+    });
+  },
+
+  totalHistorique : function(req, callback){
+    //l
+    
+        var query = "SELECT  id_historique_intrusion " +
+          " FROM historique_intrusion " ;
+        
+    Historique_intrusion.query(query, function(err, res){
+      if(err) return callback(err);
+      
+      return res.length;
+    });
+  }
+
+
+
 };
 

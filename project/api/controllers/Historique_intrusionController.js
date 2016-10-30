@@ -24,6 +24,30 @@ module.exports = {
     });
   },
 
+  total_severity_intrusion : function(req, res){
+    Historique_intrusion.GetHisto("severity_code", function(err, val){
+      return res.json(val);
+    });
+  },
+
+  type : function(req, res){
+    Historique_intrusion.GetType("", function(err, val){
+      return val;
+    });
+  },
+
+  categorie : function(req, res){
+    Historique_intrusion.GetCategorie("", function(err, val){
+      return val;
+    });
+  },
+
+  total : function(req, res){
+    Historique_intrusion.totalHistorique("", function(err, val){
+      return val;
+    });
+  },
+
   notification_email : function(req,res){
 
        Mailer.sendEmail();

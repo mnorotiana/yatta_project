@@ -129,7 +129,7 @@ module.exports = {
         		var message = toInsert[j]['message'];
         		var host = toInsert[j]['host'];
         		var date = toInsert[j]['syslog_timestamp'];
-        		var code = toInsert[j]['severity_code'];
+        		var code = toInsert[j]['syslog_severity_code'];
         		var severity = toInsert[j]['severity_severity'];
 
         		/*var type_id = 0;

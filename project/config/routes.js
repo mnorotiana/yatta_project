@@ -24,26 +24,97 @@ module.exports.routes = {
 
   /***************************************************************************
   *                                                                          *
-  * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
-  * etc. depending on your default view engine) your home page.              *
+   Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, 
+   etc. depending on your default view engine) your home page.              
   *                                                                          *
-  * (Alternatively, remove this and add an `index.html` file in your         *
-  * `assets` directory)                                                      *
+   (Alternatively, remove this and add an `index.html` file in your         
+   `assets` directory)                                                      
   *                                                                          *
   ***************************************************************************/
 
   '/': {
     view: 'homepage'
   },
+  '/main': {
+    view: 'gentelella/production/echarts'
+  },
 
   'get /login':'AuthController.IndexLogin',
   'post /login':'AuthController.Login',
   '/logout': 'AuthController.Logout',
 
-  '/historique' : 'Historique_intrusionController.historique',
+  '/liste_historique' :
+  {
+    controller: 'Historique_intrusionController',
+    action: 'historique',
+ cors: {
+      origin:  "ascii-origin" | "*",
+      headers: 'Content-Type, Authorization',
+      securityLevel:1
+    }
 
-  '/total_type_intrusion' : 'Historique_intrusionController.total_type_intrusion',
-  '/total_categorie_intrusion' : 'Historique_intrusionController.total_categorie_intrusion',
+  },
+
+  '/total_type_intrusion' :
+  {
+    controller: 'Historique_intrusionController',
+    action: 'total_type_intrusion',
+    cors: {
+
+      origin:  "ascii-origin" | "*",
+      headers: 'Content-Type, Authorization',
+      securityLevel:1
+    }
+  },
+
+
+  '/total_categorie_intrusion' : {
+    controller: 'Historique_intrusionController',
+    action: 'total_categorie_intrusion',
+
+    cors: {
+      origin:  "ascii-origin" | "*",
+      headers: 'Content-Type, Authorization',
+      securityLevel:1
+    }
+  },
+
+  '/total_severity_intrusion' : {
+    controller: 'Historique_intrusionController',
+    action: 'total_severity_intrusion',
+
+    cors: {
+      origin:  "ascii-origin" | "*",
+      headers: 'Content-Type, Authorization',
+      securityLevel:1
+    }
+  },
+
+
+'/type' :
+  {
+    controller: 'Historique_intrusionController',
+    action: 'type',
+ cors: {
+      origin:  "ascii-origin" | "*",
+      headers: 'Content-Type, Authorization',
+      securityLevel:1
+    }
+
+  },
+
+  '/categorie' :
+  {
+    controller: 'Historique_intrusionController',
+    action: 'categorie',
+ cors: {
+      origin:  "ascii-origin" | "*",
+      headers: 'Content-Type, Authorization',
+      securityLevel:1
+    }
+
+  },
+
 
 
   '/tableau_bord': 'BackendController.Acceuil',
@@ -55,13 +126,14 @@ module.exports.routes = {
   '/notification_email':'Historique_intrusionController.notification_email',
 
 
+
   /***************************************************************************
   *                                                                          *
-  * Custom routes here...                                                    *
+   Custom routes here...                                                    
   *                                                                          *
-  * If a request to a URL doesn't match any of the custom routes above, it   *
-  * is matched against Sails route blueprints. See `config/blueprints.js`    *
-  * for configuration options and examples.                                  *
+   If a request to a URL doesn't match any of the custom routes above, it   
+   is matched against Sails route blueprints. See `config/blueprints.js`    
+   for configuration options and examples.                                  
   *                                                                          *
   ***************************************************************************/
 
