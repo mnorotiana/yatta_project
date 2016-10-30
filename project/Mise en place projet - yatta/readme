@@ -1,0 +1,211 @@
+Titre du projet: Serveur d'hameçonnage sur mesure
+Equipe: Yatta !
+
+Environnement de test
+-Kali linux
+-Serveur Linux compromisé (metasploitable 2)
+-Serveur Linux sécurisé (Debian 8)
+
+Outils et logiciels utilisés
+-Serveur de la base de données PostgreSQL
+-Serveur WEB nginx
+-Elasticsearch
+-Logstash
+-Kiabana
+-Filebeat
+-Snort IDS
+
+#####################################################################################################################################
+I- Mise en place d’un serveur vulnérable
+Remarque: Tous les serveurs et outils mentionnées dans cette section seront changés dans le futur:
+Changement du metasploitable 2 car c’est il présente trop de vulnérabilité.
+Developmement d’un autre IDS que le hackeur ne connaitra pas.
+1- Télécharger l’image de Metasploitable 2 depuis le lien: https://sourceforge.net/projects/metasploitable/files/Metasploitable2/metasploitable-linux-2.0.0.zip/download
+Lancez le dans un virtual machine (virtualbox / vmware, etc..)
+2- Installation de SNORT IDS dans le serveur
+nstallation depuis le dépôt oficiel.
+#apt-get install snort
+Les logs de snort qui se trouvent dans le repertoire /var/log/snort/alert seront envoyé aux serveur log logstach par l’outif Filebeat
+3- Installation de Filebeat
+A reprendre à la fin de l’installation de logstach/elasticserach/kibana
+
+###################################################################################################################################
+II Mise en place du serveur de production
+1- PostgreSQL Server
+
+C’est la base de données de l’application.
+#apt-get install postgresql postgresql-contrib
+installtion de node.js qui est le framework utilisé en front end.
+
+#curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+#apt-get install -y nodejs
+
+Création d’un utilisateur et d’une base de données
+#su postgres
+#psql
+	>create user yatta with password ‘Riskyatta2016!’;
+	>create dabatase yatta with owner yatta;
+	>\q
+
+2- Installation de Elasticsearch
+
+Importez la clé pgp de elasticsearch
+#wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add -
+Ajouter elasticsearch dans la source
+#echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | tee -a /etc/apt/sources.list.d/elasticsearch-2.x.list
+#apt-get update
+#apt-get install elasticsearch
+
+Modifier le fichier de la configuration de elasticsearch
+	network.host: localhost
+
+#/etc/init.d/elasticsearch restart
+
+
+3- Installation de kibana
+#echo "deb http://packages.elastic.co/kibana/4.4/debian stable main" | tee -a /etc/apt/sources.list.d/kibana-4.4.x.list
+#apt-get update
+#apt-get install kibana
+
+Modifiez la configuration Kibana en changeant le server.host: 0.0.0.0 en server.host: "localhost"
+#service kibana start
+
+4- Installez nginx
+#apt-get install nginx apache2-utils
+
+Creer un utilisateur pour administrer kibana
+#htpasswd -c /etc/nginx/htpasswd.users kibanaadmin
+
+Configurer nginx pour rediriger le flux vers kibana en changant le contenu de son fichier de configuration
+#nano /etc/nginx/sites-available/default
+	server {
+	listen 80;
+
+	server_name yatta.mg;
+
+	auth_basic "Restricted Access";
+	auth_basic_user_file /etc/nginx/htpasswd.users;
+
+	location / {
+	proxy_pass http://localhost:5601;
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection 'upgrade';
+	proxy_set_header Host $host;
+	proxy_cache_bypass $http_upgrade;
+	}
+	}
+redemarrer nginx
+#service nginx restart
+
+5- Installation de Logstash
+Ajouter le depot de elasticsearch dans la source du système
+#echo 'deb http://packages.elastic.co/logstash/2.2/debian stable main' | tee /etc/apt/sources.list.d/logstash-2.2.x.list
+#apt-get update
+#apt-get install logstash
+
+Pour la sécuriter de la communication entre les services, creez un certificat SSL
+#mkdir -p /etc/pki/tls/certs
+#mkdir /etc/pki/tls/private
+
+Editer le fichier /etc/ssl/openssl.cnf en changeant le
+subjectAltName = IP: 192.168.1.209
+
+Generez les certificats:
+#cd /etc/pki/tls
+#openssl req -config /etc/ssl/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt
+
+Configurez Logstash pour accepter et autoriser la communication depuis le metasploitable2
+#nano etc/logstash/conf.d/02-beats-input.conf
+	input {
+		beats {
+			port => 5044
+			ssl => true
+			ssl_certificate => "/etc/pki/tls/certs/logstash-forwarder.crt"
+			ssl_key => "/etc/pki/tls/private/logstash-forwarder.key"
+		}
+	}
+
+Creer un fichier pour configurer la filtre entre kibana et le syslog
+#/etc/logstash/conf.d/10-syslog-filter.conf
+filter {
+	if [type] == "syslog" {
+		grok {
+			match => { "message" => "%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" }
+			add_field => [ "received_at", "%{@timestamp}" ]
+			add_field => [ "received_from", "%{host}" ]
+		}
+	syslog_pri { }
+	date {
+		
+	}
+	}
+	}
+
+Creer un fichier de sortie pour elasticsearch
+#nano /etc/logstash/conf.d/30-elasticsearch-output.conf
+output {
+	elasticsearch {
+		hosts => ["localhost:9200"]
+		sniffing => true
+		manage_template => false
+		index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+		document_type => "%{[@metadata][type]}"
+	}
+}
+
+Testez la configuration faite puis redemarrer logstash
+#service logstash configtest
+#service logstash restart
+
+Creez et charger les fichiers pour le tableau des bords de kibana
+#cd && curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.1.0.zip
+#unzip beats-dashboards-1.1.0.zip
+#cd beats-dashboards-*
+#./load.sh
+
+Même action que sur kibana, creez et chargez celui de elasticsearch
+#cd && curl -O https://gist.githubusercontent.com/thisismitch/3429023e8438cc25b86c/raw/d8c479e2a1adcea8b1fe86570e42abab0f10f364/filebeat-index-template.json
+#curl -XPUT 'http://localhost:9200/_template/filebeat?pretty' -d@filebeat-index-template.json
+
+6- Installation et configuration de Filebeat, un outil qui permet d'envoyer les logs du client vers le elasticsearch
+Dans le serveur où il y a kibana, elasticsearch, logstach, lancez la commande suivante:
+#scp /etc/pki/tls/certs/logstash-forwarder.crt msfadmin@192.168.1.207:/tmp
+Connectz-vous sur le serveur metasploitable2
+#mkdir -p /etc/pki/tls/certs
+#cp /tmp/logstash-forwarder.crt /etc/pki/tls/certs/
+
+Modifer la source local du metasploited et recuperer Filebeat
+#echo "deb https://packages.elastic.co/beats/apt stable main" | tee -a /etc/apt/sources.list.d/beats.list
+Ajouter la clé pgp
+#wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add -
+
+7- Installez ensuite filebeat
+#apt-get update
+#apt-get install filebeat
+
+Configurez Filebeat ensuite pour envoyer ces logs vers le logstash
+Editez son fichier de conf et ajouter la ligne ci-dessous
+#nano /etc/filebeat/filebeat.yml
+	paths:
+		- /var/log/auth.log
+		- /var/log/syslog
+
+Changer la ligne qui contient document_type en
+	document_type: syslog
+
+Ajoutez l'IP du logstach dans le fichier de configuration de Filebeat:
+	logstash:
+		# The Logstash hosts
+		hosts: ["192.168.1.209:5044"]
+
+Commentez la ligne suivante et modifiez son contenu
+	tls:
+	    certificate_authorities: ["/etc/pki/tls/certs/logstash-forwarder.crt"]
+
+Redemarrez filebeat
+service filebeat restart
+
+8- Testez l'installation en tapant la commande suivante
+#curl -XGET 'http://localhost:9200/filebeat-*/_search?pretty'
+Le répertoire "Capture d'écran contient des captures"
