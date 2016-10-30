@@ -81,7 +81,7 @@ module.exports.connections = {
     host:'localhost',
     user: 'postgres',
     //password: 'yatta!',
-    password: 'postgres',
+    password: 'root',
     database: 'yatta'
   },
   // somePostgresqlServer: {

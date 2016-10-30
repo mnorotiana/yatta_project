@@ -17,8 +17,7 @@ module.exports = {
     id_user: { //id du dossier
       type: 'integer',
       size: 11,
-      autoIncrement: true,
-      defaultsTo: 0,
+      autoIncrement: true
     },
     nom: {
       type: 'string',
@@ -86,6 +85,10 @@ module.exports = {
     actif:{
       type: 'boolean',
       columnName: 'actif'
+    },
+    moyen_com:{
+      type: 'string',
+      columnName:'moyen_com'
     }
 
   },

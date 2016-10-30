@@ -1,0 +1,13 @@
+.main_container {
+    margin-top: 15px;
+}
+
+.row.top_tiles {
+    margin-right: 15px;
+}
+
+.profile_pic {
+    float: left;
+    margin: 0 auto;
+    width: 50%;
+}

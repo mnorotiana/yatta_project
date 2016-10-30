@@ -23,5 +23,11 @@ module.exports = {
       return res.json(val);
     });
   },
-};
 
+  notification_email : function(req,res){
+
+       Mailer.sendEmail();
+
+
+     }
+  } 

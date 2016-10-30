@@ -14,9 +14,10 @@ module.exports = {
 
   attributes: {
     id_categorie_intrusion: {
-      type: 'int',
+      type: 'integer',
       size: 11,
       primaryKey: true,
+      autoIncrement: true,
     },
     libelle: {
       type: 'string',

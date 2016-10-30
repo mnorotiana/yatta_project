@@ -14,7 +14,9 @@ module.exports = {
     return res.view('Login', {message : false, layout : 'layoutLogin'});
   },
 
-  Login : function(req, res){
+  Login : function(req, res){   
+
+
     var login = req.param('login');
     var password = req.param('password');
 
@@ -61,30 +63,7 @@ module.exports = {
     return res.redirect("/");
   },
 
-  GetPersonnesWithDepartement : function(req, res){
-    var id_departement = req.param("id_departement");
-    if(id_departement == undefined) return res.badRequest("Identifiant departement erronné");
-
-    User.GetWithDepartement(id_departement, function(err, personnes){
-      if(err) return res.badRequest(err);
-      if(personnes == undefined) return res.badRequest("Aucun utilisateur ne correspond a ce matricule");
-
-      return res.json(personnes);
-    });
-  },
-
-  GetPersonneWithMatricul : function(req, res){
-    var id = req.param("id");
-    if(!ValidationService.ValidateId(id)) return res.badRequest("Identifiant de la personne erronné(invalide)");
-
-    User.GetWithIdPers(id, function(err, personne){
-      if(err) return res.badRequest(err);
-      if(personne == undefined) return res.badRequest("Aucun utilisateur correspond a ce matricule");
-
-      return res.json(personne);
-    });
-  },
-
+  
   GetAllPersonne : function(req, res){
     User.GetAll(function(err, personne){
       if(err) return res.badRequest(err);

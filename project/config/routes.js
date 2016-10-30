@@ -48,7 +48,11 @@ module.exports.routes = {
 
   '/tableau_bord': 'BackendController.Acceuil',
   '/profile':'UserController.Details',
-  'register':'UserController.register',
+  '/register':'UserController.Register',
+
+  '/saveUser':'UserController.Save',
+
+  '/notification_email':'Historique_intrusionController.notification_email',
 
 
   /***************************************************************************

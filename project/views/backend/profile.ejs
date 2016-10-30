@@ -109,7 +109,7 @@
                     <div class="container">
                       <div class="row">
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab-container">
-                          <form>
+                          <form action="/saveUser" method="POST">
                               <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
                                 <div class="list-group">
                                   <a href="#" class="list-group-item active text-center">
@@ -128,23 +128,24 @@
                               </div>
                               <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
                                   <!-- perso section -->
+                                  <input type="hidden" value="<% if(typeof(personne) !== 'undefined' ){ %><%= personne.id_user %><%}%>" name="id_user" />
                                   <div class="bhoechie-tab-content active">
                                       <div>
                                         <div class="form-group">
                                           <label for="nom">Nom</label>
-                                          <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom">
+                                          <input type="text" class="form-control" id="nom" name="nom" value=" <% if(typeof(personne) !== 'undefined' ){ %><%= personne.nom %><%}%>" placeholder="Nom">
                                         </div>
                                         <div class="form-group">
                                           <label for="prenom">Prenom</label>
-                                          <input type="text" class="form-control" id="prenom" placeholder="Prenom">
+                                          <input type="text" class="form-control" id="prenom" value="<% if(typeof(personne) !== 'undefined' ){ %><%= personne.prenom %><%}%>"  name="prenom" placeholder="Prenom">
                                         </div>
                                         <div class="form-group">
                                           <label for="adresse">Adresse</label>
-                                          <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Adresse">
+                                          <input type="text" class="form-control" id="adresse" value="<% if(typeof(personne) !== 'undefined' ){ %><%= personne.adresse %><%}%>" name="adresse" placeholder="Adresse">
                                         </div>
                                         <div class="form-group">
                                           <label for="cp">CP</label>
-                                          <input type="text" class="form-control" id="cp" placeholder="CP">
+                                          <input type="text" class="form-control" id="cp" value="<% if(typeof(personne) !== 'undefined' ){ %><%= personne.cp %><%}%>" name="cp" placeholder="CP">
                                         </div>
                                       </div>
                                   </div>
@@ -152,7 +153,7 @@
                                   <div class="bhoechie-tab-content">
                                       <div class="form-group">
                                         <label for="identifiant">Identifiant</label>
-                                        <input type="text" class="form-control" id="identifiant" name="identifiant" placeholder="Identifiant">
+                                        <input type="text" class="form-control" id="identifiant" value="<% if(typeof(personne) !== 'undefined' ){ %><%= personne.username %><%}%>" name="identifiant" placeholder="Identifiant">
                                       </div>
                                       <div class="form-group">
                                         <label for="new_password">Nouveau mot de passe</label>
@@ -166,7 +167,14 @@
 
                                       <div class="form-group">
                                         <label for="identifiant">Société</label>
-                                        <input type="text" class="form-control" id="societe" name="societe" placeholder="Société">
+                                          <select name="societe">
+                                            <% societes.forEach(function(item) { %>
+                                                <option value="<%= item.id_societe %>"><%= item.nom %></option>
+                                            <% }); %>
+
+                                          </select>
+
+                                        
                                       </div>
                                   </div>
                       
@@ -184,8 +192,8 @@
                                             Cas d'intrusion classée prioritaire
                                           </div>
                                           <div class="panel-footer">
-                                            <p><input type="checkbox" name="intrusion"> <span>SQL Injection</span></p>
-                                            <p><input type="checkbox" name="intrusion"> <span>SQL Injection</span></p>
+                                            <p><input type="checkbox" name="intrusion[]" value="1"> <span>SQL Injection</span></p>
+                                            <p><input type="checkbox" name="intrusion[]" value="2"> <span>SQL Injection</span></p>
                                           </div>
                                         </div>                                          
                                       </div>
@@ -198,20 +206,21 @@
                                             Moyen de communication
                                           </div>
                                           <div class="panel-footer">
-                                            <p><input type="checkbox" name="moyen"> <span>Par SMS</span></p>
-                                        <p><input type="checkbox" name="moyen"> <span>Par email</span></p>
+                                            <p><input type="checkbox" name="moyen_com[]" value="SMS" <% if ( typeof(personne) !== 'undefined' && personne.moyen_com == 'SMS') { %>
+             checked = "checked"  <% }  %> > <span>Par SMS</span></p>
+                                        <p><input type="checkbox" name="moyen_com[]" value="Email" <% if ( typeof(personne) !== 'undefined' && personne.moyen_com == 'Email') { %>
+             checked = "checked"  <% } %> > <span>Par email</span></p>
                                           </div>
                                         </div>                                          
                                       </div>
 
-
                                       <div class="form-group">
-                                        <label for="identifiant">Numero de télephone</label>
-                                        <input type="text" class="form-control" id="numero_phone" name="numero_phone" placeholder="Numéro de téléphone">
+                                        <label for="tel">Numero de télephone</label>
+                                        <input type="text" class="form-control" id="numero_phone" name="tel" placeholder="Numéro de téléphone" value="<% if(typeof(personne) !== 'undefined' ){ %><%= personne.tel %><%}%>">
                                       </div>
                                       <div class="form-group">
                                         <label for="identifiant">Adresse e-mail</label>
-                                        <input type="text" class="form-control" id="adresse_email" name="adresse_email" placeholder="Adresse email">
+                                        <input type="text" class="form-control" id="adresse_email" name="mail" placeholder="Adresse email" value="<% if(typeof(personne) !== 'undefined' ){ %><%= personne.mail %><%}%>">
                                       </div>
                                   </div>
                               </div>

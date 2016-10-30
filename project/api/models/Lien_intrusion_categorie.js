@@ -18,19 +18,16 @@ module.exports = {
         type: 'integer',
         size: 11,
         autoIncrement: true,
-        defaultsTo: 0,
       primaryKey: true,
       },
     id_intrusion: {
       type: 'integer',
       size: 11,
-      autoIncrement: true,
       defaultsTo: 0,
     },
     id_categorie: {
       type: 'integer',
       size: 11,
-      autoIncrement: true,
       defaultsTo: 0,
     },
   }

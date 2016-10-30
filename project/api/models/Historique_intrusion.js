@@ -17,20 +17,27 @@ module.exports = {
       type: 'integer',
       size: 11,
       autoIncrement: true,
-      primaryKey: true,
-      defaultsTo: 0
+      primaryKey: true
     },
     id_categorie_intrusion: {
-      type: 'int',
+      type: 'integer',
       size: 11
     },
     id_type_intrusion: {
-      type: 'int',
+      type: 'integer',
       size: 11
     },
     ip: {
       type: 'string',
       size: 40
+    },
+    severity_code: {
+      type: 'integer',
+      size: 2
+    },
+    source: {
+      type: 'string',
+      size: 400
     },
     details: {
       type: 'string',
